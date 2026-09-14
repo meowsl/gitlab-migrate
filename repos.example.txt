@@ -1,0 +1,6 @@
+# One repository per line. Use full path with namespace, e.g.:
+# group/subgroup/project-name
+# Comments and blank lines are ignored.
+
+my-group/my-project
+another-group/backend

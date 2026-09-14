@@ -1,0 +1,16 @@
+export_data/
+.env
+.venv/
+venv/
+.venv.old
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.mypy_cache/
+*.egg-info/
+dist/
+build/
+.ruff_cache/
+.DS_Store
+repos.txt

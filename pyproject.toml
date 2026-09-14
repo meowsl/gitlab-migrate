@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "gitlab-migrate"
+version = "1.0.0"
+description = "CLI to export GitLab projects and import them into another GitLab"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+  "requests>=2.31.0",
+  "click>=8.1.0",
+  "urllib3>=2.0.0",
+]
+
+[project.scripts]
+gitlab-migrate = "gitlab_migrate.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["gitlab_migrate"]
+
+[tool.uv]
+package = true
