@@ -108,14 +108,23 @@ class GitLabClient:
     def get_current_user(self) -> dict:
         return self.get_json("/user")
 
-    def find_project(self, path_with_namespace: str) -> Optional[dict]:
-        encoded = quote(path_with_namespace.strip("/"), safe="")
+    def find_project(self, path_with_namespace: str, exact: bool = False) -> Optional[dict]:
+        """Look up a project by full path.
+
+        GitLab resolves old paths of renamed/moved projects via redirect routes.
+        With exact=True such redirected matches are treated as not found.
+        """
+        path = path_with_namespace.strip("/")
+        encoded = quote(path, safe="")
         try:
-            return self.get_json(f"/projects/{encoded}")
+            project = self.get_json(f"/projects/{encoded}")
         except GitLabError as exc:
             if exc.status == 404:
                 return None
             raise
+        if exact and str(project.get("path_with_namespace", "")).lower() != path.lower():
+            return None
+        return project
 
     def get_project(self, project_id: Union[int, str]) -> dict:
         encoded = quote(str(project_id), safe="")

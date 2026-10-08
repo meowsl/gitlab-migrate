@@ -62,7 +62,7 @@ def create_or_get_project(
     visibility: Optional[str] = None,
 ) -> dict:
     path_with_namespace = target_path_with_namespace or meta_project["path_with_namespace"]
-    existing = client.find_project(path_with_namespace)
+    existing = client.find_project(path_with_namespace, exact=True)
     if existing:
         return existing
 
@@ -362,7 +362,7 @@ def import_repositories(
 
         try:
             if dry_run:
-                existing = client.find_project(target_path)
+                existing = client.find_project(target_path, exact=True)
                 if existing:
                     destination_status = (
                         f"EXISTS id={existing['id']} url={existing.get('web_url')}"
@@ -504,7 +504,7 @@ def plan_migration(
                 else path_with_namespace
             )
 
-            existing = dst_client.find_project(target_path)
+            existing = dst_client.find_project(target_path, exact=True)
             if existing:
                 destination_status = f"EXISTS id={existing['id']} url={existing.get('web_url')}"
                 warnings = ["target project already exists; import would reuse/update it"]
